@@ -1,0 +1,24 @@
+{
+  "name": "nodejs-key-value-store",
+  "version": "1.0.0",
+  "description": "Very brief example of a Key-value Store written in Nodejs.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha ./test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SVasilev/nodejs-key-value-store.git"
+  },
+  "keywords": [
+    "key-value",
+    "example",
+    "university"
+  ],
+  "author": "Stefan Vasilev <sopata63@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SVasilev/nodejs-key-value-store/issues"
+  },
+  "homepage": "https://github.com/SVasilev/nodejs-key-value-store"
+}
