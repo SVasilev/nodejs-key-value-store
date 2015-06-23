@@ -4,9 +4,14 @@ var assert = require('assert');
 var Space = require('../lib/Space.js');
 var KVStore = require('..');
 var types = require('../lib/datatypes');
-var options, space, kvstore;
+var options = {
+	name: 'movies',
+	key: [['title', types.STRING], ['year', types.INTEGER]],
+	attributes: [['incolor', types.BOOLEAN], ['studio', types.STRING], ['movieStar', types.STRING]]
+};
+var space, kvstore;
 
-describe('Space', function() {
+describe('KVStore', function() {
   describe('constructor', function() {
     it('should throw if no argument provided', function() {
       assert.throws(function() {
@@ -26,7 +31,7 @@ describe('Space', function() {
     });
   });
   
-  describe('createSpace', function() {
+  describe('createSpace method', function() {
     it('should throw if no argument provided', function() {
       assert.throws(function() {
 		    kvstore = new KVStore('myStore');
@@ -59,17 +64,17 @@ describe('Space', function() {
     });
     
     it('creates new space', function() {
-      options = {
-      	name: 'movies',
-      	key: [['title', types.STRING], ['year', types.INTEGER]],
-      	attributes: [['incolor', types.BOOLEAN], ['studio', types.STRING], ['movieStar', types.STRING]]
-      };
       kvstore = new KVStore('myStore');
       kvstore.createSpace(options);
     });
   });
   
-  describe('put', function() {
-    
+  describe('put method', function() {
+    it('should throw if you try to put value in non existing space', function() {
+      assert.throws(function() {
+        kvstore = new KVStore('myStore');
+        kvstore.put('movie', ['Perl Harbor', 1997], [true, 'Fox', 'Stephen']);
+      }, /Space 'movie' does not .* store/);
+    });
   });
 });
