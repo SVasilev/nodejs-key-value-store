@@ -1,12 +1,13 @@
 'use strict';
 
 var Commands = require('./Commands');
+var KVStore  = require('../lib/KVstore');
 var commandParser = require('../kvstore-cli/command-parser');
 
 module.exports = CommandParserBuilder;
 
-function CommandParserBuilder(kvStoreInstance, availableCommands) {
-  this.commands = new Commands(kvStoreInstance, availableCommands);
+function CommandParserBuilder() {
+  this.commands = new Commands(new KVStore('main'), require('./availableCommands'));
 }
 
 CommandParserBuilder.prototype.build = function() {
@@ -17,7 +18,7 @@ CommandParserBuilder.prototype.build = function() {
     command = this.commands.availableCommands[key];
     commandParser
       .command(command.syntax)
-      .action(Commands.prototype[key]);
+      .action(this.commands.createspace.bind(this.commands));
   }, this);
   
   return commandParser;

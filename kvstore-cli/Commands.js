@@ -1,7 +1,5 @@
 'use strict';
 
-var availableCommands = require('./availableCommands');
-
 module.exports = Commands;
 
 function Commands(kvStore, availableCommands) {
@@ -9,12 +7,20 @@ function Commands(kvStore, availableCommands) {
   this.availableCommands = availableCommands;
 }
 
+Commands.prototype.displayHelp = function(key) {
+  console.log(this.availableCommands[key].description);
+};
+
 Commands.prototype.createspace = function(name, otherDirs) {
-  if(name === 'help') { console.log(this.availableCommands.createspace); return; }
-  if(name) console.log('rmdir %s', name);
-  if (otherDirs) {
-    otherDirs.forEach(function (oDir) {
-      console.log('rmdir %s', oDir);
-    });
+  if (name === 'help') {
+    this.displayHelp('createspace');
   }
-}
+  else {
+    if(name) console.log('rmdir %s', name);
+    if (otherDirs) {
+      otherDirs.split().forEach(function (oDir) {
+        console.log('rmdir %s', oDir);
+      });
+    }
+  }
+};
