@@ -20,5 +20,14 @@
   "bugs": {
     "url": "https://github.com/SVasilev/nodejs-key-value-store/issues"
   },
-  "homepage": "https://github.com/SVasilev/nodejs-key-value-store"
+  "homepage": "https://github.com/SVasilev/nodejs-key-value-store",
+  "devDependencies": {
+    "should": ">= 0.0.1",
+    "sinon": ">= 1.14.1"
+  },
+  "dependencies": {
+    "graceful-readlink": ">= 1.0.0",
+    "spawn-sync": ">= 1.0.0",
+    "underscore": "1.8.3"
+  }
 }
