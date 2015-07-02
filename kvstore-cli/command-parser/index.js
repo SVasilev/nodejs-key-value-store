@@ -278,9 +278,11 @@ Command.prototype.action = function(fn) {
     // Leftover arguments need to be pushed back. Fixes issue #56
     if (parsed.args.length) args = parsed.args.concat(args);
 
+    var requiredArgumentMissing = false;
     self._args.forEach(function(arg, i) {
       if (arg.required && null == args[i]) {
         self.missingArgument(arg.name);
+        requiredArgumentMissing = true;
       } else if (arg.variadic) {
         if (i !== self._args.length - 1) {
           self.variadicArgNotLast(arg.name);
@@ -299,7 +301,12 @@ Command.prototype.action = function(fn) {
       args.push(self);
     }
 
-    fn.apply(self, args);
+    if(!requiredArgumentMissing) {
+      fn.apply(self, args);
+    }
+    else {
+      console.error("\n  Note: Type '" + self._name + " help' to see the manual for this command");
+    }
   };
   var parent = this.parent || this;
   var name = parent === this ? '*' : this._name;
@@ -745,7 +752,7 @@ Command.prototype.opts = function() {
 Command.prototype.missingArgument = function(name) {
   console.error("  error: missing required argument `%s'", name);
   return;
-  //process.exit(1);
+  // process.exit(1);
 };
 
 /**
@@ -860,9 +867,9 @@ Command.prototype.usage = function(str) {
   var args = this._args.map(function(arg) {
     return humanReadableArgName(arg);
   });
-
-  var usage = '[options]'
-    + (this.commands.length ? ' [command]' : '')
+  
+  var usage = ' NOTE: Command line interface is case-'
+    + 'insensitive and it removes all unnecessary whitespaces.'
     + (this._args.length ? ' ' + args.join(' ') : '');
 
   if (0 == arguments.length) return this._usage || usage;
@@ -980,18 +987,18 @@ Command.prototype.helpInformation = function() {
     cmdName = cmdName + '|' + this._alias;
   }
   
-  // console.log('!!!!!!!' + JSON.stringify(this._args[0]));
-  
   var commandName = cmdName === 'kvstore-cli' ? '' : cmdName;
   var usage = [
-    '  Usage: ' + commandName + ' ' + this.usage()
+    '  \n' + commandName + ' ' + this.usage()
     , ''
   ];
 
   var cmds = [];
   var commandHelp = this.commandHelp();
-  if (commandHelp) cmds = [commandHelp.slice(1, commandHelp.indexOf('undefined')) + '\n'];
-
+  if (commandHelp) {
+    cmds = [commandHelp.replace(/undefined/g, '') + '\n'];
+  }
+  
   var options = [
     '  Options:'
     , ''

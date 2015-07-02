@@ -2,7 +2,8 @@
 Very brief example of a Key-value Store written in Nodejs. The project is for the BigData course in Sofia University.
 
 # text
+NOTE: Command line interface is case-insensitive and it removes all unnecessary whitespaces.
+
 How the command line interface should be used:
---help, -h -> Lists all the available commands and their arguments.
---version, -V -> Outputs the version of the command line interface.
-<command> help -> Outputs detailed help manual for the specified <command>.
+You can type --help or -h to see all the available commands.
+You can also see detailed manual for a specific command by typing: '<command> help', where <command> is one of the available commands.

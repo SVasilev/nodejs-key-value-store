@@ -1,29 +1,40 @@
+/* global __dirname */
+/* global process */
 'use strict';
 
-var _ = require('underscore');
 var path = require('path');
+var KVStore  = require('../lib/KVstore');
 var CliPrompt = require('readline');
 var CommandParserBuilder = require('./CommandParserBuilder');
 
-var parseUtils = require('./parseUtils');
-var commandParserBuilder = new CommandParserBuilder();
+var kvStoreImpl = new KVStore('main');
+var availableCommands = require('./availableCommands');
+var commandParserBuilder = new CommandParserBuilder(kvStoreImpl, availableCommands);
 var commandParser = commandParserBuilder.build();
 
-// The commands bellow have their default implementation from the command-parser module.
-var defaultCommands = ['-v', '--version', '-h', '--help'];
+var parseUtils = require('./parseUtils');
+availableCommands = parseUtils.prettifyCommandManuals(availableCommands);
 
 function onLineInput(line) {
   line = parseUtils.formatCommandLine(line);
-  var pathToExecutable;
   var command = line[0];
+  var firstArgument = line[1];
+  var commands = commandParserBuilder.commands;
+  var parseArgs;
   
-  if(commandParserBuilder.commands.availableCommands[command] || _.contains(defaultCommands, command)) {
-  	pathToExecutable = ['node', path.join( __dirname, 'kvstore-cli.js')]
-  	.concat(line);
-  	commandParser.parse(pathToExecutable);
+  // If the command is valid
+  if(parseUtils.isCommandValid(commands, command)) {
+    // Special case for detailed command manual
+    if (firstArgument === 'help' && !parseUtils.isDefaultCommand(command)) {
+      commands.displayHelp(command);
+    }
+  	else {
+      parseArgs = ['node', path.join(__dirname, 'kvstore-cli.js')].concat(line);
+      commandParser.parse(parseArgs);
+    }
   }
   else {
-    console.log('Unknown command \'' + command + '\'. Type --help to list all available commands.');
+    parseUtils.unknownCommand(command);
   }
 	this.prompt();
 };

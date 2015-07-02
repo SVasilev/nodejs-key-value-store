@@ -11,16 +11,10 @@ Commands.prototype.displayHelp = function(key) {
   console.log(this.availableCommands[key].description);
 };
 
-Commands.prototype.createspace = function(name, otherDirs) {
-  if (name === 'help') {
-    this.displayHelp('createspace');
-  }
-  else {
-    if(name) console.log('rmdir %s', name);
-    if (otherDirs) {
-      otherDirs.split().forEach(function (oDir) {
-        console.log('rmdir %s', oDir);
-      });
-    }
-  }
+Commands.prototype.createspace = function(name) {
+  console.log('rmdir %s', name);
+};
+
+Commands.prototype.set = function(a, b, c) {
+  console.log(a, b, c);
 };
