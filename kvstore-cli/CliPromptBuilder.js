@@ -26,21 +26,31 @@ function onLineInput(line) {
   if(parseUtils.isCommandValid(commands, command)) {
     // Special case for detailed command manual
     if (firstArgument === 'help' && !parseUtils.isDefaultCommand(command)) {
-      commands.displayHelp(command);
+      parseUtils.displayHelp(availableCommands, command);
     }
   	else {
       parseArgs = ['node', path.join(__dirname, 'kvstore-cli.js')].concat(line);
-      commandParser.parse(parseArgs);
+      try {
+        commandParser.parse(parseArgs); 
+      } catch (error) {
+        parseUtils.systemCrashMessage(error);
+        process.exit(1);
+      }
     }
   }
   else {
-    parseUtils.unknownCommand(command);
+    if (command !== '') {
+      parseUtils.unknownCommand(command);
+    }
   }
 	this.prompt();
 };
 
 function onExit() {
   console.log('Have a great day!');
+  // TODO:
+  // History is kept in commandParser.history and should be exported on exit.
+  // When hard crash occurs the whole KVStore should be JSON.stringified to a file.
   process.exit(0);
 }
 

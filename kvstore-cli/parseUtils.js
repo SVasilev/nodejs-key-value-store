@@ -1,6 +1,7 @@
 'use strict';
 
 var _ = require('underscore');
+var cliColors = require('cli-color');
 
 function prettifyCommandManuals(availableCommands) {
   Object.keys(availableCommands).forEach(function(key) {
@@ -25,6 +26,10 @@ function prettifyCommandManuals(availableCommands) {
   return availableCommands;
 }
 
+function displayHelp(availableCommands, currentCommand) {
+  console.log(availableCommands[currentCommand].description);
+}
+
 function isCommandValid(commands, command) {
   return commands.availableCommands[command] || isDefaultCommand(command);
 }
@@ -39,14 +44,23 @@ function formatCommandLine(line) {
   return line.replace(/\s+/g, ' ').trim().replace(/, /g, ',').toLowerCase().split(' ');
 }
 
+function systemCrashMessage(error) {
+  // TODO: Should implement logging.
+  var message = '\nSYSTEM CRASHED WITH ERROR:\n  ' + error + '.\n' +
+                'DATA MIGHT BE LOST. SEE MORE DETAILS IN THE LOG FILE.';
+  console.log(cliColors.redBright(message));
+}
+
 function unknownCommand(command) {
   console.log('Unknown command \'' + command + '\'. Type --help to list all available commands.');
 }
 
 module.exports = {
   prettifyCommandManuals: prettifyCommandManuals,
+  displayHelp: displayHelp,
   isCommandValid: isCommandValid,
   isDefaultCommand: isDefaultCommand,
 	formatCommandLine: formatCommandLine,
+  systemCrashMessage: systemCrashMessage,
   unknownCommand: unknownCommand
 };

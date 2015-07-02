@@ -7,12 +7,8 @@ function Commands(kvStore, availableCommands) {
   this.availableCommands = availableCommands;
 }
 
-Commands.prototype.displayHelp = function(key) {
-  console.log(this.availableCommands[key].description);
-};
-
 Commands.prototype.createspace = function(name) {
-  console.log('rmdir %s', name);
+  undefined.noSuchProperty;
 };
 
 Commands.prototype.set = function(a, b, c) {

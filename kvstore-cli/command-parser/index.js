@@ -1,3 +1,4 @@
+/* global process */
 
 /**
  * Module dependencies.
@@ -87,6 +88,7 @@ function Command(name) {
   this._execs = [];
   this._allowUnknownOption = false;
   this._args = [];
+  this.history = [];
   this._name = name;
 }
 
@@ -185,7 +187,7 @@ Command.prototype.command = function(name, desc, opts) {
 
 Command.prototype.arguments = function (desc) {
   return this.parseExpectedArgs(desc.split(/ +/));
-}
+};
 
 /**
  * Add an implicit `help [cmd]` subcommand
@@ -277,6 +279,8 @@ Command.prototype.action = function(fn) {
 
     // Leftover arguments need to be pushed back. Fixes issue #56
     if (parsed.args.length) args = parsed.args.concat(args);
+    
+    var currentCommand = self._name.concat(' ', args.join(' '));
 
     var requiredArgumentMissing = false;
     self._args.forEach(function(arg, i) {
@@ -287,7 +291,6 @@ Command.prototype.action = function(fn) {
         if (i !== self._args.length - 1) {
           self.variadicArgNotLast(arg.name);
         }
-
         args[i] = args.splice(i);
       }
     });
@@ -303,6 +306,7 @@ Command.prototype.action = function(fn) {
 
     if(!requiredArgumentMissing) {
       fn.apply(self, args);
+      this.history.push(currentCommand);
     }
     else {
       console.error("\n  Note: Type '" + self._name + " help' to see the manual for this command");
@@ -377,7 +381,7 @@ Command.prototype.option = function(flags, description, fn, defaultValue) {
       fn = function(val, def) {
         var m = regex.exec(val);
         return m ? m[0] : def;
-      }
+      };
     }
     else {
       defaultValue = fn;
@@ -462,6 +466,8 @@ Command.prototype.parse = function(argv) {
   // process argv
   var parsed = this.parseOptions(this.normalize(argv.slice(2)));
   var args = this.args = parsed.args;
+  
+  var currentCommand = args.join(' ');
 
   var result = this.parseArgs(this.args, parsed.unknown);
 
@@ -511,7 +517,7 @@ Command.prototype.executeSubCommand = function(argv, args, unknown) {
 
   // when symbolink is relative path
   if (link !== f && link.charAt(0) !== '/') {
-    link = path.join(dirname(f), link)
+    link = path.join(dirname(f), link);
   }
   baseDir = dirname(link);
 
@@ -568,6 +574,10 @@ Command.prototype.normalize = function(args) {
     , arg
     , lastOpt
     , index;
+    
+  function push(c) {
+    ret.push('-' + c);
+  }
 
   for (var i = 0, len = args.length; i < len; ++i) {
     arg = args[i];
@@ -582,9 +592,7 @@ Command.prototype.normalize = function(args) {
     } else if (lastOpt && lastOpt.required) {
       ret.push(arg);
     } else if (arg.length > 1 && '-' == arg[0] && '-' != arg[1]) {
-      arg.slice(1).split('').forEach(function(c) {
-        ret.push('-' + c);
-      });
+      arg.slice(1).split('').forEach(push);
     } else if (/^--/.test(arg) && ~(index = arg.indexOf('='))) {
       ret.push(arg.slice(0, index), arg.slice(index + 1));
     } else {
@@ -1095,7 +1103,7 @@ function humanReadableArgName(arg) {
 
   return arg.required
     ? '<' + nameOutput + '>'
-    : '[' + nameOutput + ']'
+    : '[' + nameOutput + ']';
 }
 
 // for versions before node v0.8 when there weren't `fs.existsSync`
