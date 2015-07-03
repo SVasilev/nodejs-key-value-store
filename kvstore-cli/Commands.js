@@ -8,7 +8,7 @@ function Commands(kvStore, availableCommands) {
 }
 
 Commands.prototype.createspace = function(name) {
-  undefined.noSuchProperty;
+  this.kvStoreInstance.createSpace(name);
 };
 
 Commands.prototype.set = function(a, b, c) {

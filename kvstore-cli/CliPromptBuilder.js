@@ -11,6 +11,7 @@ var kvStoreImpl = new KVStore('main');
 var availableCommands = require('./availableCommands');
 var commandParserBuilder = new CommandParserBuilder(kvStoreImpl, availableCommands);
 var commandParser = commandParserBuilder.build();
+var commands = commandParserBuilder.commands;
 
 var parseUtils = require('./parseUtils');
 availableCommands = parseUtils.prettifyCommandManuals(availableCommands);
@@ -19,7 +20,6 @@ function onLineInput(line) {
   line = parseUtils.formatCommandLine(line);
   var command = line[0];
   var firstArgument = line[1];
-  var commands = commandParserBuilder.commands;
   var parseArgs;
   
   // If the command is valid
@@ -33,6 +33,7 @@ function onLineInput(line) {
       try {
         commandParser.parse(parseArgs); 
       } catch (error) {
+        commands.kvStoreInstance.exportDatabase('../lib/data.csh');
         parseUtils.systemCrashMessage(error);
         process.exit(1);
       }
@@ -47,6 +48,7 @@ function onLineInput(line) {
 };
 
 function onExit() {
+  commands.kvStoreInstance.exportDatabase('../lib/data.csh');
   console.log('Have a great day!');
   // TODO:
   // History is kept in commandParser.history and should be exported on exit.

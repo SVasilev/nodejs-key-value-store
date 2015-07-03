@@ -7,6 +7,9 @@ var commandParser = require('../kvstore-cli/command-parser');
 module.exports = CommandParserBuilder;
 
 function CommandParserBuilder(kvStore, availableCommands) {
+  assert(kvStore, 'Missing first argument of the constructor');
+  assert(availableCommands, 'Missing second argument of the constructor');
+  
   this.commands = new Commands(kvStore, availableCommands);
 }
 

@@ -1,12 +1,15 @@
 'use strict';
 
+/* global __dirname */
+
 /* global describe */
 /* global it */
 
+var fs = require('fs');
 var assert = require('assert');
-var Space = require('../lib/Space.js');
-var KVStore = require('..');
-var types = require('../lib/datatypes');
+var Space = require('../../lib/Space.js');
+var KVStore = require('../..');
+var utils = require('../utils');
 var space, kvstore;
 
 describe('KVStore', function() {
@@ -27,6 +30,17 @@ describe('KVStore', function() {
 		  kvstore = new KVStore('myStore');
       assert(kvstore.spaces);
     });
+    
+    it('restores its state if it crashed or was interupted last time', function() {
+      kvstore = new KVStore('myStore');
+      assert(Object.keys(kvstore.spaces).length === 0);
+      
+      var pathToLib = __dirname + '../../../lib/data.csh';
+      fs.writeFileSync(pathToLib, '{"name":"main","spaces":{"a":{"pairs":{}},"b":{"pairs":{}}}}');
+      
+      kvstore = new KVStore('myStore');
+      assert(Object.keys(kvstore.spaces).length === 2);
+    });
   });
   
   describe('createSpace method', function() {
@@ -40,8 +54,18 @@ describe('KVStore', function() {
     it('should throw if required properties of the constructor parameter does not match types', function() {
       assert.throws(function() {
 		    kvstore = new KVStore('myStore');
-        kvstore.createSpace({name: 42});
+        kvstore.createSpace(42);
 		  }, /Name property .* a string/);
+    });
+    
+    it('logs message if we try to create space which already exists', function() {
+      var consoleLog = utils.catchConsoleOutput(function() {
+        kvstore = new KVStore('myStore');
+        kvstore.createSpace('dummy');
+        kvstore.createSpace('dummy');
+      });
+      
+      assert(consoleLog === 'Space with name \'dummy\' already exists.');
     });
     
     it('creates new space', function() {
@@ -53,8 +77,8 @@ describe('KVStore', function() {
     });
   });
   
-  describe('put method', function() {
-    it('should throw if you try to put value in non existing space', function() {
+  describe('set method', function() {
+    it('should throw if you try to set value in non existing space', function() {
       assert.throws(function() {
         kvstore = new KVStore('myStore');
         kvstore.set('movie', ['Perl Harbor', 1997], [true, 'Fox', 'Stephen']);
