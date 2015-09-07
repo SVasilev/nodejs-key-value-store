@@ -11,6 +11,10 @@ Commands.prototype.createspace = function(name) {
   this.kvStoreInstance.createSpace(name);
 };
 
-Commands.prototype.set = function(a, b, c) {
-  console.log(a, b, c);
+Commands.prototype.set = function(key, value, space) {
+  this.kvStoreInstance.set(key, value, space);
+};
+
+Commands.prototype.get = function(key, space) {
+  this.kvStoreInstance.get(key, space);
 };

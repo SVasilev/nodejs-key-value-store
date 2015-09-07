@@ -4,7 +4,7 @@
   "description": "Very brief example of a Key-value Store written in Nodejs.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha ./test"
+    "test": "mocha ./test --recursive"
   },
   "repository": {
     "type": "git",

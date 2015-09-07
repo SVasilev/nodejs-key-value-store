@@ -279,7 +279,7 @@ Command.prototype.action = function(fn) {
 
     // Leftover arguments need to be pushed back. Fixes issue #56
     if (parsed.args.length) args = parsed.args.concat(args);
-    
+
     var currentCommand = self._name.concat(' ', args.join(' '));
 
     var requiredArgumentMissing = false;
@@ -309,7 +309,7 @@ Command.prototype.action = function(fn) {
       this.history.push(currentCommand);
     }
     else {
-      console.error("\n  Note: Type '" + self._name + " help' to see the manual for this command");
+      console.log("\n  Note: Type '" + self._name + " help' to see the manual for this command");
     }
   };
   var parent = this.parent || this;
@@ -466,7 +466,7 @@ Command.prototype.parse = function(argv) {
   // process argv
   var parsed = this.parseOptions(this.normalize(argv.slice(2)));
   var args = this.args = parsed.args;
-  
+
   var currentCommand = args.join(' ');
 
   var result = this.parseArgs(this.args, parsed.unknown);
@@ -493,7 +493,7 @@ Command.prototype.executeSubCommand = function(argv, args, unknown) {
   args = args.concat(unknown);
 
   if (!args.length) this.help();
-  if ('help' == args[0] && 1 == args.length) { 
+  if ('help' == args[0] && 1 == args.length) {
     this.outputHelp();
     return;
   }
@@ -548,7 +548,7 @@ Command.prototype.executeSubCommand = function(argv, args, unknown) {
     }
   } else {
     args.unshift(localBin);
-    
+
     var result = spawnSync('node', args);
     if(result.status != 0) {
       console.log('un');
@@ -574,7 +574,7 @@ Command.prototype.normalize = function(args) {
     , arg
     , lastOpt
     , index;
-    
+
   function push(c) {
     ret.push('-' + c);
   }
@@ -758,7 +758,7 @@ Command.prototype.opts = function() {
  */
 
 Command.prototype.missingArgument = function(name) {
-  console.error("  error: missing required argument `%s'", name);
+  console.log("  error: missing required argument `%s'", name);
   return;
   // process.exit(1);
 };
@@ -826,7 +826,7 @@ Command.prototype.variadicArgNotLast = function(name) {
 Command.prototype.version = function(str, flags) {
   if (0 == arguments.length) return this._version;
   this._version = str;
-  flags = flags || '-V, --version';
+  flags = flags || '--version';
   this.option(flags, 'output the version number');
   this.on('version', function() {
     process.stdout.write('Version number: ' + str + '\n');
@@ -875,7 +875,7 @@ Command.prototype.usage = function(str) {
   var args = this._args.map(function(arg) {
     return humanReadableArgName(arg);
   });
-  
+
   var usage = ' NOTE: Command line interface is case-'
     + 'insensitive and it removes all unnecessary whitespaces.'
     + (this._args.length ? ' ' + args.join(' ') : '');
@@ -994,7 +994,7 @@ Command.prototype.helpInformation = function() {
   if (this._alias) {
     cmdName = cmdName + '|' + this._alias;
   }
-  
+
   var commandName = cmdName === 'kvstore-cli' ? '' : cmdName;
   var usage = [
     '  \n' + commandName + ' ' + this.usage()
@@ -1006,7 +1006,7 @@ Command.prototype.helpInformation = function() {
   if (commandHelp) {
     cmds = [commandHelp.replace(/undefined/g, '') + '\n'];
   }
-  
+
   var options = [
     '  Options:'
     , ''
@@ -1029,7 +1029,7 @@ Command.prototype.helpInformation = function() {
  */
 
 Command.prototype.outputHelp = function() {
-  process.stdout.write(this.helpInformation());
+  console.log(this.helpInformation());
   this.emit('--help');
 };
 

@@ -21,7 +21,7 @@ function onLineInput(line) {
   var command = line[0];
   var firstArgument = line[1];
   var parseArgs;
-  
+
   // If the command is valid
   if(parseUtils.isCommandValid(commands, command)) {
     // Special case for detailed command manual
@@ -31,7 +31,7 @@ function onLineInput(line) {
   	else {
       parseArgs = ['node', path.join(__dirname, 'kvstore-cli.js')].concat(line);
       try {
-        commandParser.parse(parseArgs); 
+        commandParser.parse(parseArgs);
       } catch (error) {
         commands.kvStoreInstance.exportDatabase('../lib/data.csh');
         parseUtils.systemCrashMessage(error);

@@ -13,14 +13,14 @@ function prettifyCommandManuals(availableCommands) {
     // Insert new lines if the description is too long.
     var newDescription = currentCommand.description.split(' ');
     var linesNumber = newDescription.length / 10;
-    
+
     Array.apply(null, Array(parseInt(linesNumber.toString())))
     .map(function(_, i) {
       return i * 20;
     }).forEach(function(index) {
       newDescription.splice(index, 0, '\n ');
     });
-    
+
     currentCommand.description = newDescription.join(' ');
   });
   return availableCommands;

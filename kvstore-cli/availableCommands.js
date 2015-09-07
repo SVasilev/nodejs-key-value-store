@@ -39,13 +39,13 @@ module.exports = {
                  'provided, then the key is set in the provided spacename. ' +
                  'Otherwise the key is set in the current workingspace.'
   },
-  // 'search': {
-  //   syntax: 'get <key> [spacename]',
-  //   description: 'Searches for value the given key. If such a value is ' +
-  //                'found, it is returned as output. If spacename is provided ' +
-  //                'then the key is searched in the provided spacename. ' +
-  //                'Otherwise the key is searched in the current workingspace.'
-  // },
+  'get': {
+    syntax: 'get <key> [spacename]',
+    description: 'Searches for value the given key. If such a value is ' +
+                 'found, it is returned as output. If spacename is provided ' +
+                 'then the key is searched in the provided spacename. ' +
+                 'Otherwise the key is searched in the current workingspace.'
+  },
   // 'deletespace': {
   //   syntax: 'deletespace <name>',
   //   description: 'Deletes space with the given name. Beware, using this ' +
