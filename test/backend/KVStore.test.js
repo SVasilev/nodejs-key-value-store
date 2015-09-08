@@ -7,10 +7,9 @@
 
 var fs = require('fs');
 var assert = require('assert');
-var Space = require('../../lib/Space.js');
 var KVStore = require('../..');
 var testUtils = require('../testUtils');
-var space, kvstore;
+var kvstore;
 
 describe('KVStore', function() {
   describe('constructor', function() {
@@ -28,19 +27,18 @@ describe('KVStore', function() {
 
     it('creates a key-value store', function() {
 		  kvstore = new KVStore('myStore');
-      assert(kvstore.spaces);
+      assert(kvstore.getSpaces());
     });
 
     it('restores its state if it crashed or was interupted last time', function() {
       kvstore = new KVStore('myStore');
-      assert(Object.keys(kvstore.spaces).length === 1); // Because we always have one default space
+      assert(Object.keys(kvstore.getSpaces()).length === 1); // Because we always have one default space
 
       var pathToCrash = __dirname + '../../../lib/data.csh';
       fs.writeFileSync(pathToCrash, '{"name":"main","spaces":{"default":{"pairs":{}},"a":{"pairs":{}},"b":{"pairs":{}}}}');
 
       kvstore = new KVStore('myStore');
-      // TODO: use getSpaces() method;
-      assert(Object.keys(kvstore.spaces).length === 3);
+      assert(Object.keys(kvstore.getSpaces()).length === 3);
     });
   });
 
@@ -73,8 +71,7 @@ describe('KVStore', function() {
       kvstore = new KVStore('myStore');
       kvstore.createSpace('dummy');
 
-      // TODO: use getSpaces() method;
-      assert(kvstore.spaces['dummy']);
+      assert(kvstore.getSpaces()['dummy']);
     });
   });
 
@@ -92,8 +89,7 @@ describe('KVStore', function() {
       kvstore = new KVStore('myStore');
       kvstore.set('key', 42);
 
-      // TODO: use getSpaces() method;
-      assert(kvstore.spaces['default'].pairs.key === 42);
+      assert(kvstore.getSpaces()['default'].pairs.key === 42);
 
       // TODO: change the space to mySpace with the command use when it is implemented.
     });
@@ -103,19 +99,7 @@ describe('KVStore', function() {
       kvstore.createSpace('mySpace');
       kvstore.set('key', 42, 'mySpace');
 
-      // TODO: use getSpaces() method;
-      assert(kvstore.spaces['mySpace'].pairs.key === 42);
-    });
-
-    it('should allow to set value to an already existing key and should log a warning', function() {
-      var consoleLog = testUtils.catchConsoleOutput(function() {
-        kvstore = new KVStore('myStore');
-        kvstore.set('key', 32);
-        kvstore.set('key', 42);
-      });
-
-      assert(/WARNING: Key with name \'key\' was overriden./.test(consoleLog));
-      assert(kvstore.spaces['default'].pairs.key === 42);
+      assert(kvstore.getSpaces()['mySpace'].pairs.key === 42);
     });
   });
 
@@ -133,7 +117,6 @@ describe('KVStore', function() {
       kvstore = new KVStore('myStore');
       kvstore.set('key', 42);
 
-      // TODO: use getSpaces() method;
       assert(kvstore.get('key') === 42);
 
       // TODO: change the space to mySpace with the command use when it is implemented.
@@ -144,17 +127,7 @@ describe('KVStore', function() {
       kvstore.createSpace('mySpace');
       kvstore.set('key', 42, 'mySpace');
 
-      // TODO: use getSpaces() method;
       assert(kvstore.get('key', 'mySpace') === 42);
-    });
-
-    it('should allow to set value to an already existing key and should log a warning', function() {
-      var consoleLog = testUtils.catchConsoleOutput(function() {
-        kvstore = new KVStore('myStore');
-        kvstore.get('key');
-      });
-
-      assert(/INFO: Key with name \'key'\ does not exist./.test(consoleLog));
     });
   });
 

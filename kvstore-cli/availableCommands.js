@@ -3,18 +3,18 @@
 module.exports = {
   'createspace': {
     syntax: 'createspace <name>',
-    description: 'Creates space with the given name in the root space.'
+    description: 'Creates space with the given \'name\' in the root space.'
   },
-  // 'showspaces': {
-  //   syntax: 'showspaces',
-  //   description: 'Lists all available spaces in the Key-Value Store.'
-  // },
-  // 'use': {
-  //   syntax: 'use <spacename>',
-  //   description: 'Changes the working space to the one that is provided ' +
-  //                'as \'spacename\'. If the provided spacename does not ' +
-  //                'exist error is thrown.'
-  // },
+  'showspaces': {
+    syntax: 'showspaces',
+    description: 'Lists all available spaces in the Key-Value Store.'
+  },
+  'use': {
+    syntax: 'use <spacename>',
+    description: 'Changes the working space to the one that is provided ' +
+                 'as \'spacename\'. If the provided spacename does not ' +
+                 'exist warning is logged.'
+  },
   // 'workingspace': {
   //   syntax: 'workingspace',
   //   description: 'Prints the current working space. You can switch ' +
