@@ -38,7 +38,7 @@ function onLineInput(line) {
         try {
           commandParser.parse(parseArgs);
         } catch (error) {
-          commands.kvStoreInstance.exportDatabase('../lib/data.csh');
+          commands.kvStoreInstance.export('../lib/data.csh');
           parseUtils.systemCrashMessage(error);
           process.exit(1);
         }
@@ -54,7 +54,7 @@ function onLineInput(line) {
 };
 
 function onExit() {
-  commands.kvStoreInstance.exportDatabase('../lib/data.csh');
+  commands.kvStoreInstance.export('../lib/data.csh');
   console.log('Have a great day!');
   process.exit(0);
 }

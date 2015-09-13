@@ -213,14 +213,32 @@ describe('KVStore', function() {
       assert.equal(Object.keys(kvstore.getSpaces()).toString(), 'default');
     });
   })
+  
+  describe('export method', function() {
+    it('throws if no filePath provided', function() {
+      assert.throws(function() {
+        kvstore = new KVStore('myStore');
+        kvstore.export();
+      }, /export method expects a filePath/);
+    });
+  });
+  
+  describe('import method', function() {
+    it('throws if no filePath provided', function() {
+      assert.throws(function() {
+        kvstore = new KVStore('myStore');
+        kvstore.import();
+      }, /import method expects a filePath/);
+    });
+  });
 
   describe('dropDatabase method', function() {
-    it('deletes all spaces correctly', function() {
+    it('deletes all spaces except of default', function() {
       kvstore = new KVStore('myStore');
       kvstore.createSpace('mySpace');
       assert.equal(Object.keys(kvstore.getSpaces()).toString(), 'default,mySpace');
       kvstore.dropDatabase();
-      assert.equal(Object.keys(kvstore.getSpaces()).toString(), '');
+      assert.equal(Object.keys(kvstore.getSpaces()).toString(), 'default');
     });
   });
 });

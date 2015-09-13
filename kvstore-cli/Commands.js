@@ -22,7 +22,7 @@ Commands.prototype.use = function(spacename) {
 };
 
 Commands.prototype.workingspace = function() {
-  return this.kvStoreInstance.getWorkingSpace();
+  console.log(this.kvStoreInstance.getWorkingSpace());
 };
 
 Commands.prototype.showkeys = function(spacename) {
@@ -37,16 +37,27 @@ Commands.prototype.showvalues = function(spacename) {
   console.log(prettifiedOutput);
 };
 
-Commands.prototype.set = function(key, value, space) {
-  this.kvStoreInstance.set(key, value, space);
+Commands.prototype.set = function(key, value, spacename) {
+  this.kvStoreInstance.set(key, value, spacename);
 };
 
-Commands.prototype.get = function(key, space) {
-  console.log(this.kvStoreInstance.get(key, space));
+Commands.prototype.get = function(key, spacename) {
+  var value = this.kvStoreInstance.get(key, spacename);
+  if (value) {
+    console.log(value);
+  }
 };
 
 Commands.prototype.deletespace = function(spacename) {
   this.kvStoreInstance.deleteSpace(spacename);
+};
+
+Commands.prototype.export = function(filePath) {
+  this.kvStoreInstance.export(filePath);
+};
+
+Commands.prototype.import = function(filePath) {
+  this.kvStoreInstance.import(filePath);
 };
 
 Commands.prototype.dropdatabase = function() {

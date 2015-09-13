@@ -52,22 +52,23 @@ module.exports = {
                  'command will delete all the keys in the space. This change ' +
                  'cannot be rewinded.'
   },
-  // 'exportdatabase': {
-  //   syntax: 'exportdatabase <filePath>',
-  //   description: 'Exports the current database state. The exported result ' +
-  //                'will be written in the given filePath. Provided filePath ' +
-  //                'should contain the exportation unit name. If the current ' +
-  //                'command line user does not have permissions to write in ' +
-  //                'the given filePath then the process is aborted.'
-  // },
-  // 'importdatabase': {
-  //   syntax: 'importdatabase <filePath>',
-  //   description: 'Imports the current required database. The importation ' +
-  //                'unit will be read from the given filePath. Provided filePath ' +
-  //                'should contain the unit name. If the current command line ' +
-  //                'user does not have permissions to read from the given ' +
-  //                'filePath then the process is aborted.'
-  // }
+  'export': {
+    syntax: 'export <filePath>',
+    description: 'Exports the current database state. The exported result ' +
+                 'will be written in the given filePath. Provided filePath ' +
+                 'should contain the exportation unit name. If the current ' +
+                 'command line user does not have permissions to write in ' +
+                 'the given filePath then the process is aborted.'
+  },
+  'import': {
+    syntax: 'import <filePath>',
+    description: 'Imports the current required database. The importation ' +
+                 'unit will be read from the given filePath. Provided filePath ' +
+                 'should contain the unit name. If the current command line ' +
+                 'user does not have permissions to read from the given ' +
+                 'filePath then the process is aborted. Beware, using this ' +
+                 'command overrides spaces if they have the same name.'
+  },
   'dropdatabase': {
     syntax: 'dropdatabase',
     description: 'Drops all the created spaces. Beware, this command ' +
@@ -77,6 +78,6 @@ module.exports = {
     syntax: 'log',
     description: 'Outputs the successful command history. The history is ' +
                  'kept from the beginning of the current started Command ' +
-                 'Line Interface'
+                 'Line Interface.'
   }
 };
