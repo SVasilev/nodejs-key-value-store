@@ -47,7 +47,7 @@ function formatCommandLine(line) {
 function systemCrashMessage(error) {
   // TODO: Should implement logging.
   var message = '\nSYSTEM CRASHED WITH ERROR:\n  ' + error + '.\n' +
-                'DATA MIGHT BE LOST. SEE MORE DETAILS IN THE LOG FILE.';
+                'DATA MIGHT BE LOST.';
   console.log(cliColors.redBright(message));
 }
 

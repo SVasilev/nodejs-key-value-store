@@ -1,30 +1,27 @@
 # nodejs-key-value-store
-Very brief example of a Key-value Store written in Nodejs. The project is for the BigData course in Sofia University.
+Very brief example of a Key-value Store written in Nodejs, including an interactive Command line interface. The project is for the BigData course in Sofia University.
 
-Features:
-	Add <here> more!!!
-	
-	Handles system crash.
+# Installation
+npm install nodejs-key-value-store
 
-Future features:
-  Should implement logging.
+# Running tests
+Run `npm test` in the root directory of the project.
 
-# text
+# Features
+* Creating and using spaces.
+* Importing and exporting the database.
+* Handles system crash.
+
+# Future features
+* Should log actions to a log file.
+
+# Command line inteface
 NOTE: Command line interface is case-insensitive and it removes all unnecessary whitespaces.
 
-How the command line interface should be used:
-You can type --help or -h to see all the available commands.
-The command arguments marked with <> are mandatory, while the command arguments marked with [] are optional.
-You can also see detailed manual for a specific command by typing: '<command> help', where <command> is one of the available commands.
+How the command line interface should be used:<br />
+You can type --help or -h to see all the available commands.<br />
+The command arguments marked with <> are mandatory, while the command arguments marked with [] are optional.<br />
+You can also see detailed manual for a specific command by typing: 'help'.<br />
 
-# TODO
-
-Add tests for:
-  CliPromtBuilder, because it is unfinished
-  Commands (not sure if needed)
-  parseUtils
-  KVStore, because it is unfinished
-  Space
-
-Add KVStore.js methods implementation.
-Add implementation for all the methods listed in availableCommands.js in Commands.js. The implementation of the methods should use KVStore.js methods implementation.
+# License
+MIT
