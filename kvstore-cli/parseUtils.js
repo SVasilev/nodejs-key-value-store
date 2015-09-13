@@ -51,6 +51,10 @@ function systemCrashMessage(error) {
   console.log(cliColors.redBright(message));
 }
 
+function logHistory(historyArray) {
+  console.log(historyArray.toString().split(',').join('\n'))
+}
+
 function unknownCommand(command) {
   console.log('Unknown command \'' + command + '\'. Type --help to list all available commands.');
 }
@@ -62,5 +66,6 @@ module.exports = {
   isDefaultCommand: isDefaultCommand,
 	formatCommandLine: formatCommandLine,
   systemCrashMessage: systemCrashMessage,
+  logHistory: logHistory,
   unknownCommand: unknownCommand
 };

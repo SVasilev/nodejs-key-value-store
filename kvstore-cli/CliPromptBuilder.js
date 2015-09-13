@@ -29,13 +29,19 @@ function onLineInput(line) {
       parseUtils.displayHelp(availableCommands, command);
     }
   	else {
-      parseArgs = ['node', path.join(__dirname, 'kvstore-cli.js')].concat(line);
-      try {
-        commandParser.parse(parseArgs);
-      } catch (error) {
-        commands.kvStoreInstance.exportDatabase('../lib/data.csh');
-        parseUtils.systemCrashMessage(error);
-        process.exit(1);
+      // Corner case for only commandline command, which doesn't exist in the backend.
+      if (command === 'log') {
+        parseUtils.logHistory(commandParser.history);
+      }
+      else {
+        parseArgs = ['node', path.join(__dirname, 'kvstore-cli.js')].concat(line);
+        try {
+          commandParser.parse(parseArgs);
+        } catch (error) {
+          commands.kvStoreInstance.exportDatabase('../lib/data.csh');
+          parseUtils.systemCrashMessage(error);
+          process.exit(1);
+        }
       }
     }
   }
@@ -50,9 +56,6 @@ function onLineInput(line) {
 function onExit() {
   commands.kvStoreInstance.exportDatabase('../lib/data.csh');
   console.log('Have a great day!');
-  // TODO:
-  // History is kept in commandParser.history and should be exported on exit.
-  // When hard crash occurs the whole KVStore should be JSON.stringified to a file.
   process.exit(0);
 }
 
