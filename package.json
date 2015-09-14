@@ -4,6 +4,7 @@
   "description": "Very brief example of a Key-value Store written in Nodejs.",
   "main": "index.js",
   "scripts": {
+    "lint": "./node_modules/.bin/eslint lib kvstore-cli",
     "test": "mocha ./test --recursive"
   },
   "repository": {
@@ -23,7 +24,8 @@
   "homepage": "https://github.com/SVasilev/nodejs-key-value-store",
   "devDependencies": {
     "should": ">= 0.0.1",
-    "sinon": ">= 1.14.1"
+    "sinon": ">= 1.14.1",
+    "eslint": "^1.4.1"
   },
   "dependencies": {
     "graceful-readlink": ">= 1.0.0",

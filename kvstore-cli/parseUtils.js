@@ -46,13 +46,12 @@ function formatCommandLine(line) {
 
 function systemCrashMessage(error) {
   // TODO: Should implement logging.
-  var message = '\nSYSTEM CRASHED WITH ERROR:\n  ' + error + '.\n' +
-                'DATA MIGHT BE LOST.';
+  var message = '\nSYSTEM CRASHED WITH ERROR:\n  ' + error + '.\nDATA MIGHT BE LOST.';
   console.log(cliColors.redBright(message));
 }
 
 function logHistory(historyArray) {
-  console.log(historyArray.toString().split(',').join('\n'))
+  console.log(historyArray.toString().split(',').join('\n'));
 }
 
 function unknownCommand(command) {
@@ -64,7 +63,7 @@ module.exports = {
   displayHelp: displayHelp,
   isCommandValid: isCommandValid,
   isDefaultCommand: isDefaultCommand,
-	formatCommandLine: formatCommandLine,
+  formatCommandLine: formatCommandLine,
   systemCrashMessage: systemCrashMessage,
   logHistory: logHistory,
   unknownCommand: unknownCommand

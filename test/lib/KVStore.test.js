@@ -212,6 +212,17 @@ describe('KVStore', function() {
       kvstore.deleteSpace('mySpace');
       assert.equal(Object.keys(kvstore.getSpaces()).toString(), 'default');
     });
+    
+    it('deletes a space correctly', function() {
+      kvstore = new KVStore('myStore');
+      kvstore.createSpace('mySpace');
+      assert.equal(Object.keys(kvstore.getSpaces()).toString(), 'default,mySpace');
+      var consoleLog = testUtils.catchConsoleOutput(function() {
+        kvstore.deleteSpace('default');
+      });
+      assert.equal(consoleLog, 'default spacename cannot be deleted.');
+      assert.equal(Object.keys(kvstore.getSpaces()).toString(), 'default,mySpace');
+    });
   })
   
   describe('export method', function() {
@@ -239,6 +250,15 @@ describe('KVStore', function() {
       assert.equal(Object.keys(kvstore.getSpaces()).toString(), 'default,mySpace');
       kvstore.dropDatabase();
       assert.equal(Object.keys(kvstore.getSpaces()).toString(), 'default');
+    });
+    
+    it('changes the workingSpace to default', function() {
+      kvstore = new KVStore('myStore');
+      kvstore.createSpace('mySpace');
+      kvstore.use('mySpace');
+      assert.equal(Object.keys(kvstore.getSpaces()).toString(), 'default,mySpace');
+      kvstore.dropDatabase();
+      assert.equal(kvstore.getWorkingSpace(), 'default');
     });
   });
 });

@@ -28,7 +28,7 @@ function onLineInput(line) {
     if (firstArgument === 'help' && !parseUtils.isDefaultCommand(command)) {
       parseUtils.displayHelp(availableCommands, command);
     }
-  	else {
+    else {
       // Corner case for only commandline command, which doesn't exist in the backend.
       if (command === 'log') {
         parseUtils.logHistory(commandParser.history);
@@ -50,8 +50,8 @@ function onLineInput(line) {
       parseUtils.unknownCommand(command);
     }
   }
-	this.prompt();
-};
+  this.prompt();
+}
 
 function onExit() {
   commands.kvStoreInstance.export('../lib/data.csh');
